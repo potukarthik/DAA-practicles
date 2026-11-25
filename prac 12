@@ -1,0 +1,37 @@
+
+def tsp(graph, start):
+    n = len(graph)
+    visited = [False] * n
+    visited[start] = True
+
+    min_cost = float('inf')
+
+    def find_path(city, count, cost):
+        nonlocal min_cost
+
+        if count == n:
+            total_cost = cost + graph[city][start]
+            min_cost = min(min_cost, total_cost)
+            return
+
+        for i in range(n):
+            if not visited[i]:
+                visited[i] = True
+                find_path(i, count + 1, cost + graph[city][i])
+                visited[i] = False
+
+    find_path(start, 1, 0)
+    return min_cost
+
+
+graph = [
+    [0, 10, 15, 20],
+    [10, 0, 35, 25],
+    [15, 35, 0, 30],
+    [20, 25, 30, 0]
+]
+
+start = 0
+result = tsp(graph, start)
+
+print("Minimum travelling cost:", result)
